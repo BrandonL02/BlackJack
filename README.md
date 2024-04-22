@@ -13,8 +13,9 @@ This project provides a Python script to generate ASCII art representations of p
 To run this script, you need Python 3.x. No external libraries are required as it only uses standard libraries.
 
 ## Install
+See [PyPi page](pip install simple-ascii-cards==0.1) for additional details.
 ```python
-https://pypi.org/project/simple-ascii-cards/0.1/
+pip install simple-ascii-cards==0.1
 ```
 
 ## Usage
