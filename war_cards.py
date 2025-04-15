@@ -65,7 +65,7 @@ def blackjack_game():
         print("\nDealer wins with blackjack.")
         return
 
-    # Player turn
+    # Player's turn
     while True:
         user_total = calculate_hand_value(get_card_values(user_cards))
         if user_total >= 21:
@@ -86,7 +86,7 @@ def blackjack_game():
         print("\nBust! Dealer wins.")
         return
 
-    # Dealer turn
+    # Dealer's turn
     display_hand("Dealer", dealer_cards)
 
     while calculate_hand_value(get_card_values(dealer_cards)) < 17:
@@ -99,10 +99,7 @@ def blackjack_game():
     dealer_total = calculate_hand_value(get_card_values(dealer_cards))
     user_total = calculate_hand_value(get_card_values(user_cards))
 
-    # Final comparison
-    print("\n\n-------------------------------------------Final Hands:-------------------------------------------\n")
-    display_hand("Dealer", dealer_cards)
-    display_hand("Your", user_cards)
+    # Final Comparison
 
     if dealer_total > 21:
         print("\nDealer busted. You win!")
