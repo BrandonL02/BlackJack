@@ -4,111 +4,111 @@ import time
 
 from cards import print_blank, print_card
 
+def calculate_hand_value(values):
+    total = sum(values)
+    aces = values.count(11)
+    while total > 21 and aces:
+        total -= 10
+        aces -= 1
+    return total
 
-def blackjack_game():
+def draw_cards(first_hand):
+    hand = card_df.sample(n=2 if first_hand else 1)
+    cards = [[hand.iloc[i, 1], hand.iloc[i, 0]] for i in range(hand.shape[0])]
+    return cards
 
-    user_card_values = []
-    dealer_card_values = []
-
-    def draw_cards(first_hand):
-        if first_hand:
-            hand = card_df.sample(n=2)
-            card_1 = [hand.iloc[0, 1], hand.iloc[0, 0]]
-            card_2 = [hand.iloc[1, 1], hand.iloc[1, 0]]
-            return card_1, card_2
-        else:
-            hand = card_df.sample(n=1)
-            card_1 = [hand.iloc[0, 1], hand.iloc[0, 0]]
-            return card_1
-
-    def get_card_values(card):
+def get_card_values(cards):
+    values = []
+    for card in cards:
         rank = card[0]
         if rank == 'A':
-            rank = 11
-        elif rank == 'J' or rank == 'Q' or rank == 'K':
-            rank = 10
-        return int(rank)
+            values.append(11)
+        elif rank in ['K', 'Q', 'J']:
+            values.append(10)
+        else:
+            values.append(int(rank))
+    return values
 
-    # Draw and display dealer starting cards
-    dealer_first_card, dealer_second_card = draw_cards(True)
 
-    print("\nDealer's Hand")
-    print_card(dealer_first_card[0], dealer_first_card[1])
+def blackjack_game():
+    user_cards = []
+    dealer_cards = []
+
+    def display_hand(name, cards):
+        print(f"\n{name} Hand:")
+        for card in cards:
+            print_card(card[0], card[1])
+        print(f"Total: {calculate_hand_value(get_card_values(cards))}")
+
+    # Initial draw
+    user_cards += draw_cards(True)
+    dealer_cards += draw_cards(True)
+
+    print("\nDealer's Hand:")
+    print_card(dealer_cards[0][0], dealer_cards[0][1])
     print_blank()
 
-    # Add cards to dealer card value list
-    dealer_card_values.append(get_card_values(dealer_first_card))
-    dealer_card_values.append(get_card_values(dealer_second_card))
+    display_hand("Your", user_cards)
 
-    # Draw and display user starting cards
-    user_first_card, user_second_card = draw_cards(True)
+    # Check for blackjack
+    user_total = calculate_hand_value(get_card_values(user_cards))
+    dealer_total = calculate_hand_value(get_card_values(dealer_cards))
 
-    print("\nYour Hand")
-    print_card(user_first_card[0], user_first_card[1])
-    print_card(user_second_card[0], user_second_card[1])
+    if user_total == 21 and dealer_total == 21:
+        print("\nPush. You both have blackjack.")
+        return
+    elif user_total == 21:
+        print("\nYou win with blackjack!")
+        return
+    elif dealer_total == 21:
+        display_hand("Dealer", dealer_cards)
+        print("\nDealer wins with blackjack.")
+        return
 
-    # Add cards to user card value list
-    user_card_values.append(get_card_values(user_first_card))
-    user_card_values.append(get_card_values(user_second_card))
-    print(f"Current value : {sum(user_card_values)}")
-
-    time.sleep(3)
-
-    if sum(dealer_card_values) == 21 and sum(user_card_values) == 21:
-        print('\nPush. You both have blackjack.')
-    elif sum(user_card_values) == 21:
-        print('\nYou win!')
-    elif sum(dealer_card_values) == 21:
-        print('\nDealer wins.')
-
-    player_busted = 0
-    user_drawn_cards = []
-    dealer_drawn_cards = []
-
-    while sum(user_card_values) < 21:
-        draw_again = input('Would you like to hit or stand? (Enter hit/h or stand/s): \n')
-        if draw_again.lower() == 'h' or draw_again.lower() == 'hit':
-            new_card = draw_cards(False)
-            user_drawn_cards.append(new_card)
-            user_card_values.append(get_card_values(new_card))
-            print(f"\nCurrent value : {sum(user_card_values)}")
-        elif draw_again.lower() == 's' or draw_again.lower() == 'stand':
-            print(f'Ending turn with {sum(user_card_values)}.')
+    # Player turn
+    while True:
+        user_total = calculate_hand_value(get_card_values(user_cards))
+        if user_total >= 21:
             break
-        if sum(user_card_values) == 21:
-            print('BlackJack! You win!')
+        move = input("Would you like to hit or stand? (hit/h or stand/s): ").lower()
+        if move in ["hit", "h"]:
+            new_card = draw_cards(False)[0]
+            user_cards.append(new_card)
+            print_card(new_card[0], new_card[1])
+            print(f"New total: {calculate_hand_value(get_card_values(user_cards))}")
+        elif move in ["stand", "s"]:
             break
-        elif sum(user_card_values) > 21:
-            player_busted = 1
 
-    if player_busted:
-        print("\nDealer's Hand")
-        print_card(dealer_first_card[0], dealer_first_card[1])
-        print_card(dealer_second_card[0], dealer_second_card[1])
-        print(f'Final value: {sum(dealer_card_values)}')
+    user_total = calculate_hand_value(get_card_values(user_cards))
+    if user_total > 21:
+        display_hand("Your", user_cards)
+        display_hand("Dealer", dealer_cards)
+        print("\nBust! Dealer wins.")
+        return
 
-        print("\nYour Hand")
-        print_card(user_first_card[0], user_first_card[1])
-        print_card(user_second_card[0], user_second_card[1])
-        for x in user_drawn_cards:
-            print_card(x[0], x[1])
-        print(f'\nBust! Dealer wins. Final value: {sum(user_card_values)}')
+    # Dealer turn
+    display_hand("Dealer", dealer_cards)
+
+    while calculate_hand_value(get_card_values(dealer_cards)) < 17:
+        time.sleep(2)
+        new_card = draw_cards(False)[0]
+        dealer_cards.append(new_card)
+        print_card(new_card[0], new_card[1])
+        print(f"Total: {calculate_hand_value(get_card_values(dealer_cards))}")
+
+    dealer_total = calculate_hand_value(get_card_values(dealer_cards))
+    user_total = calculate_hand_value(get_card_values(user_cards))
+
+    # Final comparison
+    print("\n\n-------------------------------------------Final Hands:-------------------------------------------\n")
+    display_hand("Dealer", dealer_cards)
+    display_hand("Your", user_cards)
+
+    if dealer_total > 21:
+        print("\nDealer busted. You win!")
+    elif dealer_total == user_total:
+        print(f"\nPush. You both got {user_total}.")
+    elif user_total > dealer_total:
+        print(f"\nYou win! You got {user_total}, dealer got {dealer_total}.")
     else:
-        print("\nDealer's Hand")
-        print_card(dealer_first_card[0], dealer_first_card[1])
-        print_card(dealer_second_card[0], dealer_second_card[1])
-        while sum(dealer_card_values) < 17:
-            new_dealer_card = draw_cards(False)
-            dealer_drawn_cards.append(new_dealer_card)
-            dealer_card_values.append(get_card_values(new_dealer_card))
-            print_card(new_dealer_card[0], new_dealer_card[1])
-            if sum(dealer_card_values) > 21:
-                print('Dealer busted. You win!')
-                break
-            if sum(dealer_card_values) == sum(user_card_values):
-                print(f'Push. You both got {sum(dealer_card_values)}.')
-
-            if sum(user_card_values) > sum(dealer_card_values):
-                print(f'You win! You got {sum(user_card_values)} while the dealer got {sum(dealer_card_values)}')
-            elif sum(dealer_card_values) < sum(dealer_card_values):
-                print(f'Dealer wins. You got {sum(user_card_values)} while the dealer got {sum(dealer_card_values)}')
+        print(f"\nDealer wins. Dealer got {dealer_total}, you got {user_total}.")
