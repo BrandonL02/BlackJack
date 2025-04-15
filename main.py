@@ -6,6 +6,8 @@ from cards import print_blank, print_card
 
 from war_cards import blackjack_game
 
+from log_data import store_results
+
 keep_playing = 1
 rounds = 0
 
@@ -16,7 +18,8 @@ while keep_playing:
         play_blackjack = input('Another round? (Enter yes/y or no/n): \n')
 
     if play_blackjack.lower() == 'yes' or play_blackjack.lower() == 'y':
-        blackjack_game()
+        user_score, dealer_score, outcome = blackjack_game()
+        store_results(user_score, dealer_score, outcome)
         rounds += 1
     elif play_blackjack.lower() == 'no' or play_blackjack.lower() == 'n':
         keep_playing = 0

@@ -1,6 +1,7 @@
 
 import pandas as pd
 
+
 def store_results(p_score, d_score, result):
     filename = 'blackjack_data.csv'
     columns = ['user score', 'dealer score', 'round outcome']
@@ -18,6 +19,3 @@ def store_results(p_score, d_score, result):
 
     # Save without writing the index column
     game_data.to_csv(filename, index=False)
-
-# Example usage
-store_results(19, 22, 'loss')

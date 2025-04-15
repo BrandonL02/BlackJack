@@ -4,6 +4,7 @@ import time
 
 from cards import print_blank, print_card
 
+
 def calculate_hand_value(values):
     total = sum(values)
     aces = values.count(11)
@@ -33,6 +34,7 @@ def get_card_values(cards):
 def blackjack_game():
     user_cards = []
     dealer_cards = []
+    result = ''
 
     def display_hand(name, cards):
         print(f"\n{name} Hand:")
@@ -56,14 +58,17 @@ def blackjack_game():
 
     if user_total == 21 and dealer_total == 21:
         print("\nPush. You both have blackjack.")
-        return
+        result = 'tie'
+        return user_total, dealer_total, result
     elif user_total == 21:
         print("\nYou win with blackjack!")
-        return
+        result = 'win'
+        return user_total, dealer_total, result
     elif dealer_total == 21:
         display_hand("Dealer", dealer_cards)
         print("\nDealer wins with blackjack.")
-        return
+        result = 'loss'
+        return user_total, dealer_total, result
 
     # Player's turn
     while True:
@@ -84,7 +89,8 @@ def blackjack_game():
         display_hand("Your", user_cards)
         display_hand("Dealer", dealer_cards)
         print("\nBust! Dealer wins.")
-        return
+        result = 'loss'
+        return user_total, dealer_total, result
 
     # Dealer's turn
     display_hand("Dealer", dealer_cards)
@@ -103,9 +109,16 @@ def blackjack_game():
 
     if dealer_total > 21:
         print("\nDealer busted. You win!")
+        result = 'win'
     elif dealer_total == user_total:
         print(f"\nPush. You both got {user_total}.")
+        result = 'tie'
     elif user_total > dealer_total:
         print(f"\nYou win! You got {user_total}, dealer got {dealer_total}.")
+        result = 'win'
     else:
         print(f"\nDealer wins. Dealer got {dealer_total}, you got {user_total}.")
+        result = 'loss'
+
+    # Log round results
+    return user_total, dealer_total, result
