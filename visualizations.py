@@ -2,6 +2,8 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 
+from matplotlib.ticker import MaxNLocator
+
 import numpy as np
 
 def plot_outcomes(csv_name):
@@ -23,8 +25,14 @@ def plot_outcomes(csv_name):
 
             # Create a barchart for the outcomes of the game
             values = [wins, losses, ties]
+            # print(f"{wins} wins, {losses} losses, {ties} ties") # Checks count for wins, losses, and ties
             plt.bar(labels, values)
             plt.title("Player Game Results")
+
+            # Make y-axis to show integer values
+            ax = plt.gca()
+            ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+
             plt.show()
             keep_going = False
 

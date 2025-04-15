@@ -26,3 +26,6 @@ user score,dealer score,round outcome
 21,16,win
 20,17,win
 17,26,win
+17,18,loss
+20,18,win
+23,16,loss
