@@ -23,6 +23,8 @@ To run this script, you need Python 3.x. Other libraries needed are listed as fo
   
       -> A bar chart displaying win/loss/tie counts as integers
 
-        
+        ![bar chart image](https://github.com/BrandonL02/BlackJack/blob/d25a26021fa382d8ddd05adb361fde7cf29752f3/visuals/bar%20chart.png)
+  
       -> A pie chart displaying win/loss/tie rates
 
+        ![pie chart image](https://github.com/BrandonL02/BlackJack/blob/d25a26021fa382d8ddd05adb361fde7cf29752f3/visuals/pie%20chart.png)
