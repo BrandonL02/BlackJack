@@ -16,3 +16,9 @@ To run this script, you need Python 3.x. Other libraries needed are listed as fo
 - pandas
 - numpy
 
+## Usage 
+
+- main.py can be used to play Blackjack against the dealer
+- visualizations.py can be used to display the game data in the following formats:
+      -> A bar chart displaying win/loss/tie counts as integers
+      -> A pie chart displaying win/loss/tie rates
