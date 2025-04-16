@@ -23,8 +23,12 @@ while keep_playing:
         rounds += 1
     elif play_blackjack.lower() == 'no' or play_blackjack.lower() == 'n':
         keep_playing = 0
-        print(f'You played {rounds} rounds.')
-        print('Thanks for playing!')
+        if rounds == 1:
+            print(f'You played 1 round.')
+        else:
+            print(f'You played {rounds} rounds.')
+        if rounds != 0:
+            print('Thanks for playing!')
         continue
     else:
         print('Please enter a valid input of yes/y or no/n')
