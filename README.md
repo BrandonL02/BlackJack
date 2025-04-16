@@ -1,30 +1,18 @@
-# ASCII Playing Cards
+# BlackJack
 
-This project provides a Python script to generate ASCII art representations of playing cards. The script is designed to print out cards with the rank and suit clearly visible, suitable for console-based card games or other educational purposes.
+This project provides a Python script to play blackjack against the dealer and a Python script to provide visualizations for the win rate of the user vs the dealer
 
 ## Features
 
-- Displays ASCII art of playing cards.
-- Supports all ranks from 2 to Ace and suits (Spades, Hearts, Diamonds, Clubs).
-- Can be easily integrated into other Python-based card games.
+- Displays ASCII art of playing cards from ASCII Playing Cards repo by Naivoder
+- Provides barebones blackjack gameplay, excluding ability to split a dealt hand and betting functionality
+- Logs all round results to enable up-to-date representation of gameplay data through multiple visualization methods
 
 ## Requirements
 
-To run this script, you need Python 3.x. No external libraries are required as it only uses standard libraries.
+To run this script, you need Python 3.x. Other libraries needed are listed as follows:
 
-## Install
-See [PyPi page](https://pypi.org/project/simple-ascii-cards/0.1/) for additional details.
-```python
-pip install simple-ascii-cards==0.1
-```
+- matplotlib
+- pandas
+- numpy
 
-## Usage
-
-To use the ASCII card printer, simply import the function and call it with the rank and suit:
-
-```python
-from cards import print_card
-
-# Print an Ace of Spades
-print_card('A', '♠')
-```
