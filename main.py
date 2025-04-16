@@ -28,4 +28,3 @@ while keep_playing:
         continue
     else:
         print('Please enter a valid input of yes/y or no/n')
-
