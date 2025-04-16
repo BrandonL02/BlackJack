@@ -4,7 +4,7 @@ import time
 
 from cards import print_blank, print_card
 
-from war_cards import blackjack_game
+from game import blackjack_game
 
 from log_data import store_results
 
