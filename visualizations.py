@@ -26,8 +26,8 @@ def plot_outcomes(csv_name):
             # Create a barchart for the outcomes of the game
             values = [wins, losses, ties]
             # print(f"{wins} wins, {losses} losses, {ties} ties") # Checks count for wins, losses, and ties
-            plt.bar(labels, values)
-            plt.title("Player Game Results")
+            plt.bar(labels, values, color='#377eb8')
+            plt.title("Blackjack Game Results")
 
             # Make y-axis to show integer values
             ax = plt.gca()
@@ -44,7 +44,7 @@ def plot_outcomes(csv_name):
             tie_rate = ties / total_games
 
             rates = np.array([win_rate, loss_rate, tie_rate])
-            colors = ['#66bb6a', '#ef5350', '#ffee58']  # green, red, yellow
+            colors = ['#47B39C', '#EC6B56', '#FFC154']  # green, red, yellow
 
             plt.figure(figsize=(6, 6))
             plt.pie(rates, labels=labels, autopct='%1.1f%%', startangle=140, colors=colors)
